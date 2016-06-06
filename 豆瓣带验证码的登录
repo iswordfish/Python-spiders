@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
-#运行发现实际上不用验证码也能得到相应的cookie
 import requests
+import urllib
 from HTMLParser import HTMLParser
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 
 class DoubanClient(object):
@@ -37,11 +40,11 @@ class DoubanClient(object):
         self.session.post(url, data=data, headers=headers)
         print(self.session.cookies.items())
 
-    def edit_signature(self, username, signature):
-        url = 'https://www.douban.com/people/%s/' % username
+    def edit_signature(self,  signature):
+        url = 'https://www.douban.com/people/146651730/'
         r = self.session.get(url)
         data = {'ck': _get_ck(r.content), 'signature': signature}
-        url = 'https://www.douban.com/j/people/%s/edit_signature' % username
+        url = 'https://www.douban.com/j/people/146651730/edit_signature'
         headers = {'referer': url,
                    'host': 'www.douban.com',
                    'x-requested-with': 'XMLHttpRequest'}
@@ -67,6 +70,7 @@ def _get_captcha(content):
         def handle_starttag(self, tag, attrs):
             if tag == 'img' and _attr(attrs, 'id') == 'captcha_image' and _attr(attrs, 'class') == 'captcha_image':
                 self.captcha_url = _attr(attrs, 'src')
+                print (self.captcha_url)
 
             if tag == 'input' and _attr(attrs, 'type') == 'hidden' and _attr(attrs, 'name') == 'captcha-id':
                 self.captcha_id = _attr(attrs, 'value')
@@ -94,5 +98,5 @@ def _get_ck(content):
 
 if __name__ == '__main__':
     c = DoubanClient()
-    c.login('username@douban.com', 'password@douban.com')
-    c.edit_signature('username', 'python 爬虫基础')
+    c.login('778450014@qq.com', 'password')
+    c.edit_signature( 'python 爬虫基础')
