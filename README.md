@@ -32,8 +32,10 @@ class MovieParser(HTMLParser):##继承，定义电影解析器
 
 
 def  nowplaying_movies(url):
-    headers ={'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
-    rep =urllib2.Request(url, headers =headers)
+    headers ={'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}#构建报头
+    
+    rep =urllib2.Request(url, headers =headers)#发送请求
+    
     s = urllib2.urlopen(rep)
     parser  =MovieParser()#通过定义解析器找到我们想要的信息
     parser.feed(s.read())#把数据输入
